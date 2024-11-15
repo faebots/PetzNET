@@ -26,4 +26,12 @@ namespace PetzNET
         Toy,
         Clothes
     }
+    public enum FurMarkingGroupType
+    {
+        e_GroupType_Normal,
+        e_GroupType_BodyArea,
+        e_GroupType_Primary,
+        e_GroupType_Paw
+    };
+
 }

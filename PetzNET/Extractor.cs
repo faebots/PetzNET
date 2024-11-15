@@ -67,6 +67,13 @@ namespace PetzNET
                 }).Select(r => r.Value[0]).First();
 
                 file.RCData = new RCData(rcData.WriteAndGetBytes());
+
+                var lnzId = info.ResourceTypes.Single(rt => rt.Name == "LNZ");
+                foreach (var res in info.Resources[lnzId])
+                {
+                    var lnz = res.WriteAndGetBytes();
+                    file.LNZFiles[res.Name.Name] = new LNZFile(lnz);
+                }
             }
             return file;
         }
