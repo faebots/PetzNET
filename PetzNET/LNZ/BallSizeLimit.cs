@@ -20,5 +20,12 @@ namespace PetzNET.LNZ
         public int BallNumber { get; set; }
         public int Thin { get; set; }
         public int Fat { get; set; }
+        public override string ToString()
+        {
+            var str = $"{BallNumber},\t{Thin},\t{Fat}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

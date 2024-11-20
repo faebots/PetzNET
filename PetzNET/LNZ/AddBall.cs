@@ -43,5 +43,15 @@ namespace PetzNET.LNZ
         public int AddGroup { get; set; }
         public int Texture { get; set; }
         public int RelativeTo { get; set; } = -1;
+
+        public override string ToString()
+        {
+            var str = $"{BaseBall},\t{X},\t{Y},\t{Z},\t{Color},\t{OutlineColor},\t{Fuzz},\t{Group},\t{Outline},\t{Size},\t{BodyArea},\t{AddGroup},\t{Texture}";
+            if (RelativeTo > -1)
+                str += $",\t{RelativeTo}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

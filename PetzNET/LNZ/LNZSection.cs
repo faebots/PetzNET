@@ -25,6 +25,36 @@ namespace PetzNET.LNZ
         public string RawData { get; set; }
         public IList<int> Variations { get; set; } = new List<int>();
         public IList<Dictionary<int, string>> BoundVariations { get; set; } = new List<Dictionary<int, string>>();
+        public IList<T> ItemsByVariation(int variationIndex)
+        {
+            if (variationIndex >= Variations.Count)
+                return null;
+
+            return Items.Where(i => i.VariationIndex == variationIndex)
+                .OrderByDescending(i => int.Parse(i.Variation.Split('.')[0]))
+                .OrderBy(i => i.VariationIndex)
+                .ToList();
+        }
+        public IList<T> ItemsByVariation(int variationIndex, int variation)
+        {
+            if (variationIndex >= Variations.Count || variation > Variations[variationIndex])
+                return null;
+
+            return Items.Where(i => i.VariationIndex == variationIndex && i.Variation.Split('.')[0] == variation.ToString())
+                .OrderByDescending(i => int.Parse(i.Variation.Split('.')[0]))
+                .ToList();
+        }
+        public void AddVariationSet(int count)
+        {
+            Variations.Add(count);
+        }
+        public void AddVariation(int index)
+        {
+            Variations[index]++;
+        }
+
+        public IList<T> DefaultItems { get => Items.Where(i => i.Variation == null && i.VariationIndex == -1).ToList(); }
+
         public void Parse()
         {
             var inVariation = false;

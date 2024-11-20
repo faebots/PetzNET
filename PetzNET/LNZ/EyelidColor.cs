@@ -18,6 +18,15 @@ namespace PetzNET.LNZ
         }
 
         public int Color { get; set; }
-        public int Group { get; set; }
+        public int Group { get; set; } = -1;
+        public override string ToString()
+        {
+            var str = Color.ToString();
+            if (Group > -1)
+                str += $", {Group}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

@@ -21,7 +21,18 @@ namespace PetzNET.LNZ
         }
 
         public int Col1 { get; set; }
-        public int Col2 { get; set; }
+        public int? Col2 { get; set; }
         public string Label { get; set; }
+        public override string ToString()
+        {
+            var str = Col1.ToString();
+            if (Col2.HasValue)
+                str += $", {Col2.Value}";
+            if (!string.IsNullOrEmpty(Label))
+                str += $"\t\t\t{Label}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

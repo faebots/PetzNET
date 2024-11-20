@@ -31,6 +31,15 @@ namespace PetzNET.LNZ
         public int OutlineType {  get; set; }
         public int SizeDif { get; set; }
         public int Texture {  get; set; }
-        public int BallNumber { get; set; }
+        public int BallNumber { get; set; } = -1;
+        public override string ToString()
+        {
+            var str = $"{Color},\t{OutlineColor},\t{SpeckleColor},\t{Fuzz},\t{OutlineType},\t{SizeDif},\t{Texture}";
+            if (BallNumber > -1)
+                str += $",\t{BallNumber}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

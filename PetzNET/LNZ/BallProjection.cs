@@ -20,5 +20,12 @@ namespace PetzNET.LNZ
         public int AnchorBall { get; set; }
         public int LinkedBall { get; set; }
         public int Offset { get; set; }
+        public override string ToString()
+        {
+            var str = $"{AnchorBall},\t{LinkedBall},\t{Offset}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

@@ -18,5 +18,12 @@ namespace PetzNET.LNZ
 
         public int LowerLimit { get; set; }
         public int UpperLimit { get; set; }
+        public override string ToString()
+        {
+            var str = $"{LowerLimit}, {UpperLimit}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

@@ -18,5 +18,12 @@ namespace PetzNET.LNZ
 
         public int Right { get; set; }
         public int Left { get; set; }
+        public override string ToString()
+        {
+            var str = $"{Right}, {Left}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

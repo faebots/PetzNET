@@ -20,5 +20,12 @@ namespace PetzNET.LNZ
         public int StartBall { get; set; }
         public int EndBall { get; set; }
         public int Color {  get; set; }
+        public override string ToString()
+        {
+            var str = $"{StartBall}, {EndBall}, {Color}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

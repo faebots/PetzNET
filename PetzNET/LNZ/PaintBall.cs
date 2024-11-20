@@ -39,5 +39,14 @@ namespace PetzNET.LNZ
         public int Group { get; set; }
         public int Texture { get; set; }
         public int ScaleTweak { get; set; } = -1;
+        public override string ToString()
+        {
+            var str = $"{BallNumber},\t{Diameter},\t{X}, {Y}, {Z},\t{Color},\t{OutlineColor},\t{Fuzz},\t{Outline},\t{Group},\t{Texture}";
+            if (ScaleTweak > -1)
+                str += $",\t{ScaleTweak}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

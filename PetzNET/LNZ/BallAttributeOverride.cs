@@ -19,5 +19,14 @@ namespace PetzNET.LNZ
 
         public int BallNumber { get; set; }
         public int AttributeValue { get; set; }
+        public override string ToString()
+        {
+            var str = $"{BallNumber},\t{AttributeValue}";
+            if (!string.IsNullOrEmpty(Comment))
+            {
+                str += $"\t; {Comment}";
+            }
+            return str;
+        }
     }
 }

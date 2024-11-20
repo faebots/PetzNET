@@ -24,5 +24,16 @@ namespace PetzNET.LNZ
         public int ColorFlag { get; set; }
         public int TransparencyFactor { get; set; } = -1;
         public int TextureAdjust { get; set; } = -1;
+        public override string ToString()
+        {
+            var str = $"{Texture}     {ColorFlag}";
+            if (TransparencyFactor > -1)
+                str += $"     {TransparencyFactor}";
+            if (TextureAdjust > -1)
+                str += $"     {TextureAdjust}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

@@ -24,5 +24,12 @@ namespace PetzNET.LNZ
         public string Kind { get; set; }
         public string ClothesFile { get; set; }
         public string ClothesLNZ { get; set; }
+        public override string ToString()
+        {
+            var str = $"{Kind}     \"{ClothesFile}\" \"{ClothesLNZ}\"";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }

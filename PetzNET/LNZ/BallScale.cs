@@ -19,5 +19,14 @@ namespace PetzNET.LNZ
 
         public int Scale { get; set; }
         public string? Label {  get; set; }
+        public override string ToString()
+        {
+            var str = Scale.ToString();
+            if (Label != null)
+                str += $",\t{Label}";
+            if (!string.IsNullOrEmpty(Comment))
+                str += $"\t; {Comment}";
+            return str;
+        }
     }
 }
