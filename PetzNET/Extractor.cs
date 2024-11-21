@@ -1,4 +1,6 @@
 ﻿using PeNet;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using Vestris.ResourceLib;
 
 namespace PetzNET
@@ -54,17 +56,7 @@ namespace PetzNET
                     }
                 }
 
-                var rcData = info.Resources.Where(r =>
-                {
-                    try
-                    {
-                        return r.Key.ResourceType == Kernel32.ResourceTypes.RT_RCDATA;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                }).Select(r => r.Value[0]).First();
+                var rcData = info.Resources.Where(r => r.Key.TypeName == "RT_RCDATA").Select(r => r.Value[0]).First();
 
                 file.RCData = new RCData(rcData.WriteAndGetBytes());
 
@@ -74,6 +66,35 @@ namespace PetzNET
                     var lnz = res.WriteAndGetBytes();
                     file.LNZFiles[res.Name.Name] = new LNZFile(lnz);
                 }
+
+                var stringTables = info.Resources.Where(r => r.Key.TypeName == "RT_STRING");
+
+                foreach (var stringTable in stringTables)
+                {
+                    foreach (StringResource block in stringTable.Value)
+                    {
+                        var blockDict = new Dictionary<ushort, string>();
+                        foreach (var key in block.Strings.Keys)
+                        {
+                            blockDict[key] = block.Strings[key];
+                        }
+                        file.StringTables[block.BlockId] = blockDict;
+                    }
+                }
+
+                file.BreedName = file.StringTables[63][1001];
+                file.DefaultPetName = file.StringTables[63][1000];
+
+                var bitmapId = info.ResourceTypes.Single(rt => rt.Name == "BMP");
+                foreach (GenericResource bmp in info.Resources[bitmapId])
+                {
+                    file.Bitmaps[bmp.Name.Name] = new Bitmap(new MemoryStream(bmp.Data));
+                }
+
+                var scpId = info.ResourceTypes.Single(rt => rt.Name == "SCP");
+
+                file.SCP = new SCPFile(info.Resources[scpId].First().WriteAndGetBytes());
+
             }
             return file;
         }

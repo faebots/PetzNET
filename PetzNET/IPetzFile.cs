@@ -10,7 +10,7 @@ namespace PetzNET
     {
         public PetzVersion Version { get; set; }
         public FileType FileType { get; }
-        public Dictionary<int, Dictionary<int, string>> StringTables { get; }
+        public Dictionary<ushort, Dictionary<ushort, string>> StringTables { get; }
         public RCData RCData { get; set; }
     }
 }
