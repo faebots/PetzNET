@@ -34,5 +34,16 @@ namespace PetzNET.LNZ
                 str += $"\t; {Comment}";
             return str;
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "Col1", Col1.ToString() },
+                { "Col2", Col2?.ToString() },
+                { "Label", Label }
+            };
+            return MergeDicts(dict, base.GetFields());
+        }
     }
 }

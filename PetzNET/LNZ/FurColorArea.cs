@@ -44,5 +44,26 @@ namespace PetzNET.LNZ
             }
         }
 
+        public override IDictionary<string, string> GetFields()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "FurColorTrait", FurColorTrait.ToString() },
+                { "BallWithBaseColor", BallWithBaseColor.ToString() },
+                { "RampbaseX", string.Empty },
+                { "RampbaseY", string.Empty },
+                { "ColorAreas", string.Empty }
+            };
+            if (Rampbase.HasValue)
+            {
+                dict["RampbaseX"] = Rampbase.Value.Item1.ToString();
+                dict["RampbaseY"] = Rampbase.Value.Item2.ToString();
+            }
+            else
+            {
+                dict["ColorAreas"] = String.Join(", ", ColorAreas);
+            }
+            return MergeDicts(dict, base.GetFields());
+        }
     }
 }

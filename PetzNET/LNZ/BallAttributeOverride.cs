@@ -28,5 +28,15 @@ namespace PetzNET.LNZ
             }
             return str;
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "BallNumber", BallNumber.ToString() },
+                { "AttributeValue", AttributeValue.ToString() }
+            };
+            return MergeDicts(dict, base.GetFields());
+        }
     }
 }

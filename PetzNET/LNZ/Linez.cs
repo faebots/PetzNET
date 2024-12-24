@@ -47,5 +47,25 @@ namespace PetzNET.LNZ
                 str += $"\t; {Comment}";
             return str;
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var outlineFlag = OutlineFlag > -1 ? OutlineFlag.ToString() : "";
+            var lineOutside = LineOutside > -1 ? LineOutside.ToString() : "";
+            var dict = new Dictionary<string, string>
+            {
+                { "StartBall", StartBall.ToString() },
+                { "EndBall", EndBall.ToString() },
+                { "Fuzz", Fuzz.ToString() },
+                { "Color", Color.ToString() },
+                { "LeftOutlineColor", LeftOutlineColor.ToString() },
+                { "RightOutlineColor", RightOutlineColor.ToString() },
+                { "StartThick", StartThick.ToString() },
+                { "EndThick", EndThick.ToString() },
+                { "OutlineFlag", outlineFlag },
+                { "LineOutside", lineOutside }
+            };
+            return MergeDicts(dict, base.GetFields());
+        }
     }
 }

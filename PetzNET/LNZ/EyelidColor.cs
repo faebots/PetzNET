@@ -28,5 +28,16 @@ namespace PetzNET.LNZ
                 str += $"\t; {Comment}";
             return str;
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var group = Group > -1 ? Group.ToString() : "";
+            var dict = new Dictionary<string, string>
+            {
+                { "Color", Color.ToString() },
+                { "Group", group }
+            };
+            return MergeDicts(dict, base.GetFields());
+        }
     }
 }

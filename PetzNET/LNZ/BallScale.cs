@@ -11,9 +11,9 @@ namespace PetzNET.LNZ
         public BallScale(string str) : base(str)
         {
             str = SetComment(str);
-            var line = str.Split([' ', '\t', ','], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            var line = str.Split([' ', '\t', ','], 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             Scale = int.Parse(line[0]);
-            if (line.Length > 1)
+            if (line.Length > 1) { }
                 Label = line[1];
         } 
 
@@ -23,10 +23,20 @@ namespace PetzNET.LNZ
         {
             var str = Scale.ToString();
             if (Label != null)
-                str += $",\t{Label}";
+                str += $"\t{Label}";
             if (!string.IsNullOrEmpty(Comment))
                 str += $"\t; {Comment}";
             return str;
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "Scale", Scale.ToString() },
+                { "Label", Label }
+            };
+            return MergeDicts(dict, base.GetFields());
         }
     }
 }

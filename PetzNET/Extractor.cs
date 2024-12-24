@@ -7,6 +7,11 @@ namespace PetzNET
 {
     public static class Extractor
     {
+        /// <summary>
+        /// Load a Petz file from a file path.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static IPetzFile Load(string path)
         {
             switch (Path.GetExtension(path).ToLower())
@@ -14,12 +19,23 @@ namespace PetzNET
                 case ".dog":
                 case ".cat":
                     return LoadBreed(path);
+                //TODO: additional file types
+                case ".toy":
+                case ".clo":
+                case ".pet":
+                case ".env":
                 default:
                     return null;
             }
 
         }
 
+        /// <summary>
+        /// Load a breed file from a file path.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidDataException"></exception>
         public static BreedFile LoadBreed(string path)
         {
             var file = new BreedFile();
@@ -27,6 +43,8 @@ namespace PetzNET
             {
                 info.Load(path);
                 var peFile = new PeFile(path);
+
+                //Identify game version or unibreed
                 if (info.ResourceTypes.Select(rt => rt.Name).Contains("UNIBREED"))
                 {
                     file.Version = PetzVersion.Unibreed;
@@ -56,10 +74,11 @@ namespace PetzNET
                     }
                 }
 
-                var rcData = info.Resources.Where(r => r.Key.TypeName == "RT_RCDATA").Select(r => r.Value[0]).First();
+                var rcData = info.Resources.Where(r => r.Key.TypeName == "RT_RCDATA").Select(r => r.Value.Single(v => v.Name.Name == "1003")).Single();
 
                 file.RCData = new RCData(rcData.WriteAndGetBytes());
 
+                //Load LNZ files
                 var lnzId = info.ResourceTypes.Single(rt => rt.Name == "LNZ");
                 foreach (var res in info.Resources[lnzId])
                 {
@@ -67,6 +86,7 @@ namespace PetzNET
                     file.LNZFiles[res.Name.Name] = new LNZFile(lnz);
                 }
 
+                //Load string tables
                 var stringTables = info.Resources.Where(r => r.Key.TypeName == "RT_STRING");
 
                 foreach (var stringTable in stringTables)
@@ -85,6 +105,7 @@ namespace PetzNET
                 file.BreedName = file.StringTables[63][1001];
                 file.DefaultPetName = file.StringTables[63][1000];
 
+                //Load bitmaps
                 var bitmapId = info.ResourceTypes.Single(rt => rt.Name == "BMP");
                 foreach (GenericResource bmp in info.Resources[bitmapId])
                 {
@@ -92,7 +113,8 @@ namespace PetzNET
                 }
 
                 var scpId = info.ResourceTypes.Single(rt => rt.Name == "SCP");
-
+                
+                //Load SCP file (parsing not implemented yet)
                 file.SCP = new SCPFile(info.Resources[scpId].First().WriteAndGetBytes());
 
             }

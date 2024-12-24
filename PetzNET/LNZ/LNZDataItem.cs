@@ -17,12 +17,31 @@ namespace PetzNET.LNZ
             return type.GetConstructor([typeof(string)]).Invoke(new object[] {str}) as LNZDataItem;
         }
 
+        public virtual IDictionary<string, string> GetFields()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Comment", Comment },
+                { "Variation", Variation },
+                { "VariationIndex", VariationIndex.ToString() }
+            };
+        }
+
         protected string SetComment(string str)
         {
             var line = str.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             if (line.Length > 1)
                 Comment = line[1];
-            return line[0];
+            if (line.Length > 0)
+                return line[0];
+            return "";
+        }
+
+        protected IDictionary<string, string> MergeDicts(IDictionary<string, string> dict1, IDictionary<string, string> dict2)
+        {
+            foreach (var key in dict2.Keys)
+                dict1[key] = dict2[key];
+            return dict1;
         }
 
         internal LNZDataItem(string str) { }
@@ -40,6 +59,16 @@ namespace PetzNET.LNZ
         }
 
         public string Value { get; set; }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "Value", Value }
+            };
+            return MergeDicts(dict, base.GetFields());
+        }
+
         public override string ToString()
         {
             return Comment == null ?
@@ -54,6 +83,15 @@ namespace PetzNET.LNZ
         {
             str = SetComment(str);
             Value = str == "1";
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "Value", (Value ? 1 : 0).ToString() }
+            };
+            return MergeDicts(dict, base.GetFields());
         }
 
         public bool Value { get; set; }
@@ -74,5 +112,21 @@ namespace PetzNET.LNZ
             Value = int.Parse(str);
         }
         public int Value { get; set; }
+
+        public override string ToString()
+        {
+            return Comment == null ?
+                Value.ToString() :
+                $"{Value}\t; {Comment}";
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "Value", Value.ToString() }
+            };
+            return MergeDicts(dict, base.GetFields());
+        }
     }
 }

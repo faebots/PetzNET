@@ -41,5 +41,21 @@ namespace PetzNET.LNZ
                 str += $"\t; {Comment}";
             return str;
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "Color", Color.ToString() },
+                { "OutlineColor", OutlineColor.ToString() },
+                { "SpeckleColor", SpeckleColor.ToString() },
+                { "Fuzz", Fuzz.ToString() },
+                { "OutlineType", OutlineType.ToString() },
+                { "SizeDif", SizeDif.ToString() },
+                { "Texture", Texture.ToString() },
+                { "BallNumber", BallNumber.ToString() }
+            };
+            return MergeDicts(dict, base.GetFields());
+        }
     }
 }

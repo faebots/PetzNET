@@ -22,5 +22,14 @@ namespace PetzNET.LNZ
         {
             return $"addballs:\t{String.Join(", ", AddBalls)}\t; {Comment}\n";
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "AddBalls", string.Join(", ", AddBalls) }
+            };
+            return MergeDicts(dict, base.GetFields());
+        }
     }
 }

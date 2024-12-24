@@ -48,5 +48,26 @@ namespace PetzNET.LNZ
                 str += $"\t; {Comment}";
             return str;
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var scaleTweak = ScaleTweak > -1 ? ScaleTweak.ToString() : "";
+            var dict = new Dictionary<string, string>
+            {
+                { "BallNumber", BallNumber.ToString() },
+                { "Diameter", Diameter.ToString() },
+                { "X", X.ToString() },
+                { "Y", Y.ToString() },
+                { "Z", Z.ToString() },
+                { "Color", Color.ToString() },
+                { "OutlineColor", OutlineColor.ToString() },
+                { "Fuzz", Fuzz.ToString() },
+                { "Outline", Outline.ToString() },
+                { "Group", Group.ToString() },
+                { "Texture", Texture.ToString() },
+                { "ScaleTweak", scaleTweak }
+            };
+            return MergeDicts(dict, base.GetFields());
+        }
     }
 }

@@ -14,20 +14,38 @@ namespace PetzNET.LNZ
             str = SetComment(str);
             var cols = str.Split(['\t', ' '], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             Kind = cols[0];
-            Offset = cols[1].Trim().Split(',').Select(i => float.Parse(i)).ToArray();
+            var offset = cols[1].Trim().Split(',').Select(i => float.Parse(i)).ToArray();
+            X = offset[0];
+            Y = offset[1];
+            Z = offset[2];
             Scale = float.Parse(cols[2].Trim());
         }
 
         public string Kind { get; set; }
-        public float[] Offset { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
         public float Scale { get; set; }
 
         public override string ToString()
         {
-            var str = $"{Kind}     {Offset[0]},{Offset[1]},{Offset[2]}     {Scale}";
+            var str = $"{Kind}     {X},{Y},{Z}     {Scale}";
             if (Comment != null)
                 str += $"; {Comment}";
             return str;
+        }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "Kind", Kind },
+                { "X", X.ToString() },
+                { "Y", Y.ToString() },
+                { "Z", Z.ToString() },
+                { "Scale", Scale.ToString() }
+            };
+            return base.GetFields();
         }
     }
 }

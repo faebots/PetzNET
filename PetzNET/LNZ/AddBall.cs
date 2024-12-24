@@ -53,5 +53,28 @@ namespace PetzNET.LNZ
                 str += $"\t; {Comment}";
             return str;
         }
+
+        public override IDictionary<string, string> GetFields()
+        {
+            var relativeTo = RelativeTo > -1 ? RelativeTo.ToString() : string.Empty;
+            var dict = new Dictionary<string, string>
+            {
+                { "BaseBall", BaseBall.ToString() },
+                { "X", X.ToString() },
+                { "Y", Y.ToString() },
+                { "Z", Z.ToString() },
+                { "Color", Color.ToString() },
+                { "OutlineColor", OutlineColor.ToString() },
+                { "Fuzz", Fuzz.ToString() },
+                { "Group", Group.ToString() },
+                { "Outline", Outline.ToString() },
+                { "Size", Size.ToString() },
+                { "BodyArea", BodyArea.ToString() },
+                { "AddGroup", AddGroup.ToString() },
+                { "Texture", Texture.ToString() },
+                { "RelativeTo", relativeTo }
+            };
+            return MergeDicts(dict, base.GetFields());
+        }
     }
 }
